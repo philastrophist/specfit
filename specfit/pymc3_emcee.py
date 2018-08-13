@@ -1,18 +1,9 @@
 from __future__ import division
-import emcee
-import pymc3 as pm
-from pymc3.backends.base import MultiTrace
-from pymc3.model import FreeRV, MultiObservedRV, ObservedRV, incorporate_methods, InstanceMethod, Point
-from pymc3.sampling import _choose_backend, _soft_update
-from pymc3.step_methods.arraystep import ArrayStep
-from pymc3.step_methods.metropolis import delta_logp
-from theano.tensor.var import TensorVariable
-from theano import tensor as tt
+
 import numpy as np
+import pymc3 as pm
 from scipy import stats
-import matplotlib.pyplot as plt
-
-
+from theano import tensor as tt
 
 if __name__ == '__main__':
     X = np.linspace(0, 50, 1000)

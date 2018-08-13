@@ -431,7 +431,7 @@ class SpectrumModel(object):
         self.var_conditions += conditions
 
     def reset_conditions(self):
-        self._theano_conditions = shared(1, 'conditions')
+        self._theano_conditions = shared(True, 'conditions')
         self.var_conditions = []
 
     def build_conditions(self):
@@ -620,14 +620,14 @@ class SpectrumModel(object):
 
     def plot_corner(self, burnin=None):
         if burnin is None:
-            burnin = self.sampler.chain.shape[1] * 0.5
+            burnin = int(self.sampler.chain.shape[1] * 0.5)
             warn("no burnin given, using burnin of 50%")
         s = self.sampler.chain[:, burnin:, :].reshape(-1, self.sampler.chain.shape[-1])
         return corner(s, labels=self.parameter_names)
 
     def fitted_parameters(self, burnin=None, thin=1):
         if burnin is None:
-            burnin = self.sampler.chain.shape[1] * 0.5
+            burnin = int(self.sampler.chain.shape[1] * 0.5)
             warn("no burnin given, using burnin of 50%")
         fitted = np.percentile(self.sampler.chain[:, burnin::thin].reshape(-1, self.sampler.chain.shape[-1]),
                                (16, 50, 84), axis=0)
@@ -680,8 +680,8 @@ if __name__ == '__main__':
     oiii = line_flux(fitted.OIII5007_amplitude, fitted.NIIa_width)
     print [nii/ha, oiii/hb]
     print [167.8/432.4, 27.6/70.55]
-    # model.plot_chains()
-    # model.plot_corner()
+    model.plot_chains()
+    model.plot_corner()
 
 
 
